@@ -15,6 +15,7 @@ mongoose
         console.log(err);
     });
 
+// setting up all Routes
 app.use(express.json())
 app.use("/api/auth", authRoute)
 app.use("/api/users", userRoute)
