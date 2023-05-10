@@ -20,8 +20,8 @@ router.put("/:id", verifyTokenAndAuthorization, async (req, res) => {
             },
             { new: true }
         );
-        const {password, ...others} = updatedUser._doc;
-        res.status(200).json({...others})
+        const { password, ...others } = updatedUser._doc;
+        res.status(200).json({ ...others })
 
     } catch (err) {
         res.status(500).json(err)
@@ -29,23 +29,33 @@ router.put("/:id", verifyTokenAndAuthorization, async (req, res) => {
 })
 
 // User Delete
-router.delete("/find/:id", verifyTokenAndAuthorization , async (req,res)=>{
-    try{
+router.delete("/find/:id", verifyTokenAndAuthorization, async (req, res) => {
+    try {
         await User.findByIdAndDelete(req.params.id);
         res.status(200).json("User has been deleted.")
-    } catch(err){
+    } catch (err) {
         res.status(500).json(err)
     }
 
 })
 
+// Get User
+router.get("/find/:id", verifyTokenAndAuthorization, async (req, res) => {
+    try {
+        const user = await User.findById(req.params.id)
+        res.status(200).json(user)
+    } catch (err) {
+        res.status(500).json(err)
+    }
+})
+
 // Get all user
-router.get("/", verifyTokenAndAdmin, async (req,res)=>{
+router.get("/", verifyTokenAndAdmin, async (req, res) => {
     const query = req.query.new;   /* URL query */
     try {
-        const users =  query
-                        ? await User.find().sort({id:-1}).limit(5)
-                        : await User.find().limit(55);
+        const users = query
+            ? await User.find().sort({ id: -1 }).limit(5)
+            : await User.find().limit(55);
         res.status(200).json(users)
     } catch (err) {
         res.status(500).json(err)
