@@ -5,6 +5,8 @@ const dotenv  = require("dotenv")
 const userRoute = require("./routes/user")
 const authRoute = require("./routes/auth")
 const productRoute = require("./routes/product")
+const cartRoute = require("./routes/cart")
+const ordersRoute = require("./routes/orders")
 
 dotenv.config();
 
@@ -20,6 +22,8 @@ mongoose
 app.use(express.json())
 app.use("/api/auth", authRoute)
 app.use("/api/products", productRoute)
+app.use("/api/cart", cartRoute)
+app.use("/api/orders", ordersRoute)
 app.use("/api/users", userRoute)
 
 // listening to the API
