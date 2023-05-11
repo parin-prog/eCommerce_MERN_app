@@ -9,7 +9,7 @@ const ProductSchema = new mongoose.Schema(
         categories: {type: Array},
         size: {type: String},
         color: {type: String},
-        price: {type: String, required:true},
+        price: {type: Number, required:true},
         isAdmin: {
             type: Boolean,
             default: false
