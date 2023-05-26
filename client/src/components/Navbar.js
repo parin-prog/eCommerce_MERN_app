@@ -64,7 +64,7 @@ const Navbar = () => {
         </Left>
 
         <Center>
-          <Logo>LAMA.</Logo>
+          <Logo>SHEIN.</Logo>
         </Center>
 
         <Right>
