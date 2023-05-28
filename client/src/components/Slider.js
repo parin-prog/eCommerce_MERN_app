@@ -71,6 +71,18 @@ const Button = styled.button`
     font-size: 20px;
     background-color: transparent;
     cursor: pointer;
+
+    background: linear-gradient(to right, teal 50%, #fff 50%);
+    background-size: 200% 100.5%;
+    background-position: right bottom;
+    color: #020202;
+    border-color: teal;
+    box-shadow: 3px 3px 2px rgba(0,0,0,0.3);
+    transition: all .3s ease-out;
+    &:hover {
+        background-position: left bottom;
+        color: white;
+    }
 `
 
 const Slider = () => {
