@@ -26,6 +26,7 @@ const Logo = styled.h1`
 `
 const Desc = styled.div`
     margin: 1.5rem 0;
+    word-wrap: break-word;
 `
 const SocialContainer = styled.div`
     max-width: 50%;
