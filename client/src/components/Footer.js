@@ -35,7 +35,7 @@ const SocialContainer = styled.div`
     justify-content: space-between;
 `
 const SocialIcon = styled.div`
-    padding: 0.5rem;
+    padding: 8px;
     color: white;
     background-color: ${props=>props.color};
     cursor: pointer;
@@ -80,7 +80,7 @@ const ContactItem = styled.div`
     display: flex;
     align-items: center;
     margin: 1rem 0;
-    color: darkblue;
+    color: #0f0f3f;
 `
 const Payment = styled.img`
     margin: 1rem 0 0 0;
