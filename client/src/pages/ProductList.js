@@ -5,11 +5,12 @@ import Navbar from '../components/Navbar'
 import Products from '../components/Products'
 import Newsletter from '../components/Newsletter'
 import Footer from '../components/Footer'
+import { mobile } from '../responsive'
 
 const Container = styled.div``
 
 const Title = styled.h1`
-  margin: 2rem;
+  margin: 3vw;
 `
 
 const FilterContainer = styled.div`
@@ -18,18 +19,21 @@ const FilterContainer = styled.div`
 `
 
 const Filter = styled.div`
-  margin: 2rem;
+  margin: 3vw;
   display: flex;
   align-items: center;
+  ${mobile({ width: "25%", flexDirection: "column", alignItems: "flex-start"})};
 `
 const FilterText = styled.div`
   font-size: 1.4rem;
   font-weight: 600;
   margin-right: 1.4rem;
+  ${mobile({ fontSize:"0.9em", margin: "0 5px 5px 0" })};
 `
 const Select = styled.select`
   padding: 10px;
   margin-right: 1.4rem;
+  ${mobile({ width:"100px",padding: "8px", marginRight: "0" })};
 `
 const Option = styled.option``
 

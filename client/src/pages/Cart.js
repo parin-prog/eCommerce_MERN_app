@@ -5,10 +5,12 @@ import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
+import { mobile } from '../responsive'
 
 const Container = styled.div``
 const Wrapper = styled.div`
   padding: 20px;
+  ${mobile({ padding: "10px" })};
 `
 const Title = styled.h1`
   font-weight: 300;
@@ -24,12 +26,13 @@ const TopButton = styled.button`
   padding: 10px;
   font-weight: 600;
   cursor: pointer;
-  border: ${props=>props.type === "filled" && "none"};
+  border: ${props=>props.type === "filled" && "black"};
+  padding: ${props=>props.type === "filled" && "12px"};
   background-color: ${props=>props.type === "filled" ? "black" : "transparent"};
   color: ${props=>props.type === "filled" && "white"};
 `
 const TopTexts = styled.div`
-  
+  ${mobile({ display: "none" })};
 `
 const TopText = styled.span`
   text-decoration: underline;
@@ -39,6 +42,7 @@ const TopText = styled.span`
 const Bottom = styled.div`
   display: flex;
   justify-content: space-between;
+  ${mobile({ flexDirection: "column" })};
 `
 const Info = styled.div`
   flex: 3;
@@ -46,6 +50,7 @@ const Info = styled.div`
 const Product = styled.div`
   display: flex;
   justify-content: space-between;
+  ${mobile({ flexDirection: "column" })};
 `
 const Hr = styled.hr`
   background-color: #eee;
@@ -59,6 +64,7 @@ const ProductDetail = styled.div`
 `
 const Image = styled.img`
   width: 200px;
+  ${mobile({ width: "55%" })};
 `
 const Details = styled.div`
   padding: 20px;
@@ -86,6 +92,7 @@ const ProductAmountContainer = styled.div`
   display: flex;
   align-items: center;
   margin-bottom: 20px;
+  ${mobile({ margin: "5px 15px" })};
 `
 const ProductAmount = styled.div`
   font-size: 1.5rem;
@@ -94,6 +101,7 @@ const ProductAmount = styled.div`
 const ProductPrice = styled.div`
   font-size: 2rem;
   font-weight: 200;
+  ${mobile({ marginBottom: "20px" })};
 `
 const Summary = styled.div`
   flex: 1;
@@ -101,6 +109,7 @@ const Summary = styled.div`
   border-radius: 10px;
   padding: 20px;
   height: 50vh;
+  ${mobile({ margin: "30px 0" })};
 `
 const SummaryTitle = styled.h1`
   font-weight: 200;

@@ -7,6 +7,7 @@ import PinterestIcon from '@mui/icons-material/Pinterest';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import PhoneIcon from '@mui/icons-material/Phone';
 import EmailIcon from '@mui/icons-material/Email';
+import { mobile } from '../responsive';
 
 const Container = styled.div`
     height: 50vh;
@@ -14,6 +15,7 @@ const Container = styled.div`
     padding: 1rem;
     display: flex;
     justify-content: space-between;
+    ${mobile({ flexDirection: "column" })};
 `
 const Left = styled.div`
     flex: 1;
@@ -22,7 +24,7 @@ const Left = styled.div`
     flex-direction: column;
 `
 const Logo = styled.h1`
-    font-size: 2.5rem;
+    font-size: 2rem;
 `
 const Desc = styled.div`
     margin: 1.5rem 0;
@@ -32,16 +34,15 @@ const SocialContainer = styled.div`
     max-width: 50%;
     display: flex;
     align-items: center;
-    justify-content: space-between;
 `
 const SocialIcon = styled.div`
-    padding: 8px;
+    padding: 7px;
+    margin-right: 8px;
     color: white;
     background-color: ${props=>props.color};
     cursor: pointer;
     border-radius: 50%;
     box-shadow: 3px 2px 12px rgba(0,0,0,0.5);
-
 `
 const Center = styled.div`
     flex: 1;
@@ -50,6 +51,7 @@ const Center = styled.div`
     height: 70%;
     display: flex;
     flex-direction: column;
+    ${mobile({ display: "none" })};
 `
 const Title = styled.div`
     font-size: 1.5rem;
@@ -75,6 +77,7 @@ const ListItem = styled.li`
 const Right = styled.div`
     flex: 1;
     padding: 2rem;
+    ${mobile({ backgroundColor: "#fff8f8" })};
 `
 const ContactItem = styled.div`
     display: flex;

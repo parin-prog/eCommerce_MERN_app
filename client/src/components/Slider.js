@@ -3,12 +3,14 @@ import { styled } from "styled-components";
 import ArrowLeftIcon from "@mui/icons-material/ArrowLeft";
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 import {sliderItems} from "../data"
+import { mobile } from "../responsive";
 
 const Container = styled.div`
   width: 100%;
   height: 100vh;
   position: relative;
   overflow: hidden;
+  ${mobile({ display: "none" })};
 `;
 const Arrow = styled.div`
   width: 50px;

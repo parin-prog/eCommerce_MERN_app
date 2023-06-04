@@ -1,8 +1,10 @@
 import React from 'react'
 import { styled } from 'styled-components'
 import SendIcon from '@mui/icons-material/Send';
+import { mobile } from '../responsive';
 
 const Container = styled.div`
+    width: 100%;
     height: 60vh;
     background-color: #f8f6f0;
     display: flex;
@@ -13,18 +15,21 @@ const Container = styled.div`
 const Title = styled.h1`
     margin-bottom: 2rem;
     font-size: 4.5rem;
+    ${mobile({ fontSize: "3rem" })};
 `
 const Desc = styled.div`
     font-size: 1.5rem;
     font-weight: 370;
     margin-bottom: 2rem;
+    ${mobile({ textAlign: "center" })};
 `
-const InputField = styled.div`
+const InputContainer = styled.div`
     width: 50%;
     height: 2.5rem;
     display: flex;
     justify-content: space-between;
     border: 1px solid lightgray;
+    ${mobile({ width: "80%" })};
 `
 const Input = styled.input`
     flex: 9;
@@ -46,12 +51,12 @@ const Newsletter = () => {
     <Container>
         <Title>Newsletter</Title>
         <Desc>Get timely updates from your favourite products.</Desc>
-        <InputField>
+        <InputContainer>
             <Input placeholder='Your email' />
             <Button>
                 <SendIcon />
             </Button>
-        </InputField>
+        </InputContainer>
     </Container>
   )
 }

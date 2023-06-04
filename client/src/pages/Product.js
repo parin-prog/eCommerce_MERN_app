@@ -6,23 +6,28 @@ import Newsletter from '../components/Newsletter'
 import Footer from '../components/Footer'
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
+import { mobile } from '../responsive'
 
 const Container = styled.div``
 const Wrapper = styled.div`
     display: flex;
     margin: 2rem;
+    ${mobile({ margin: "5px", padding: "5px", flexDirection: "column" })};
 `
 const ImgContainer = styled.div`
     flex: 1;
+    ${mobile({ margin:"10px" })};
 `
 const Image = styled.img`
     width: 100%;
     height: 90vh;
     object-fit: cover;
+    ${mobile({ height: "40%" })};
 `
 const InfoContainer = styled.div`
     flex: 1;
     padding: 0px 50px;
+    ${mobile({ padding: "10px" })};
 `
 const Title = styled.h1`
     font-weight: 340;
@@ -39,6 +44,7 @@ const FilterContainer = styled.div`
     margin: 2.6rem 0;
     display: flex;
     justify-content: space-between;
+    ${mobile({ width: "100%" })};
 `
 const Filter = styled.div`
     display: flex;
@@ -66,6 +72,7 @@ const AddContainer = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-between;
+    ${mobile({ width: "100%" })};
 `
 const AmountContainer = styled.div`
     display: flex;
@@ -89,6 +96,7 @@ const Button = styled.button`
     cursor: pointer;
     font-weight: 600;
     font-size: 1rem;
+    ${mobile({ margin: "20px 0" })};
 
     background: linear-gradient(to right, teal 50%, #fff 50%);
     background-size: 200% 100.5%;
