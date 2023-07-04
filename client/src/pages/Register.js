@@ -41,8 +41,8 @@ const Agreement = styled.span`
 const Button = styled.div`
     padding: 20px;
     border: 1px solid teal;
-    background-color: white;
-    color: teal;
+    background-color: teal;
+    color: white;
     cursor: pointer;
 `
 

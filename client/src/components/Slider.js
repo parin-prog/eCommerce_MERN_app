@@ -56,7 +56,7 @@ const Image = styled.img`
 const InfoContainer = styled.div`
   flex: 1; 
   padding: 50px;
-  margin: auto 15vw;
+  margin: auto 20vw;
 `;
 
 const Title = styled.h1`

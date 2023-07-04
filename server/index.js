@@ -7,6 +7,7 @@ const authRoute = require("./routes/auth")
 const productRoute = require("./routes/product")
 const cartRoute = require("./routes/cart")
 const ordersRoute = require("./routes/orders")
+const cors = require('cors')
 
 dotenv.config();
 
@@ -20,6 +21,7 @@ mongoose
 
 // setting up all Routes
 app.use(express.json())
+app.use(cors());
 app.use("/api/auth", authRoute)
 app.use("/api/products", productRoute)
 app.use("/api/cart", cartRoute)

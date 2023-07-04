@@ -119,10 +119,10 @@ const Product = () => {
         <Navbar />
         <Wrapper>
             <ImgContainer>
-                <Image src="https://img.freepik.com/premium-photo/brunette-long-floral-dress-with-hat-poses-camera-studio_307890-8516.jpg?w=360" />
+                <Image src="http://i.ibb.co/S6qMxwr/jean.jpg" />
             </ImgContainer>
             <InfoContainer>
-                <Title>Navy Blue Frock</Title>
+                <Title>Denim Jumpsuit</Title>
                 <Desc>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Cum consequatur error laborum voluptatibus dolores natus nobis pariatur aliquid itaque, sint excepturi perspiciatis eveniet quisquam exercitationem soluta nesciunt? Nihil, modi facere! Lorem ipsum dolor, sit amet consectetur adipisicing elit. Expedita deserunt cupiditate tempore iure est dolorum odio. Nihil sapiente mollitia aspernatur facilis maxime molestiae error aliquid eos aut? Sequi, assumenda. Numquam!</Desc>
                 <Price>$ 20</Price>
                 <FilterContainer>
