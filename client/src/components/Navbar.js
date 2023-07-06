@@ -4,6 +4,8 @@ import SearchIcon from '@mui/icons-material/Search';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import Badge from '@mui/material/Badge';
 import {mobile} from '../responsive'
+import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 const Container = styled.div`
   height: 60px;
@@ -42,6 +44,7 @@ const Center = styled.div`
 `
 const Logo = styled.h1`
   font-weight: bold;
+  cursor: pointer;
   ${mobile({fontSize:"24px"})};
 `
 const Right = styled.div`
@@ -59,6 +62,8 @@ const MenuItem = styled.div`
 `
 
 const Navbar = () => {
+  const quantity = useSelector(state=>state.cart.quantity);
+
   return (
     <Container>
       <Wrapper>
@@ -71,17 +76,19 @@ const Navbar = () => {
         </Left>
 
         <Center>
-          <Logo>SHEIN.</Logo>
+          <Logo>CUTS.</Logo>
         </Center>
 
         <Right>
           <MenuItem>REGISTER</MenuItem>
           <MenuItem>SIGN IN</MenuItem>
+          <Link style={{color:"black"}} to="/cart">
           <MenuItem>
-          <Badge badgeContent={4} color="secondary">
+          <Badge badgeContent={quantity} color="secondary">
                 <ShoppingCartIcon />
           </Badge>
           </MenuItem>
+          </Link>
         </Right>
       </Wrapper>
     </Container>
