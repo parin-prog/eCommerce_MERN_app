@@ -7,6 +7,7 @@ const authRoute = require("./routes/auth")
 const productRoute = require("./routes/product")
 const cartRoute = require("./routes/cart")
 const ordersRoute = require("./routes/orders")
+const stripeRoute = require("./routes/stripe")
 const cors = require('cors')
 
 dotenv.config();
@@ -27,6 +28,7 @@ app.use("/api/products", productRoute)
 app.use("/api/cart", cartRoute)
 app.use("/api/orders", ordersRoute)
 app.use("/api/users", userRoute)
+app.use("/api/checkout", stripeRoute)
 
 // listening to the API
 app.listen(process.env.port || 5000, ()=>{
