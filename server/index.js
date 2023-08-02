@@ -31,6 +31,6 @@ app.use("/api/users", userRoute)
 app.use("/api/checkout", stripeRoute)
 
 // listening to the API
-app.listen(process.env.port || 5000, ()=>{
+app.listen(process.env.PORT || 5000, ()=>{
     console.log("Backend server is running!!")
 })

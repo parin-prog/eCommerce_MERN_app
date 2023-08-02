@@ -8,6 +8,7 @@ const Container = styled.div`
     height: 60vh;
     background-color: #f8f6f0;
     display: flex;
+    flex: 1;
     align-items: center;
     justify-content: center;
     flex-direction: column;

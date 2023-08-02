@@ -1,7 +1,7 @@
 const User = require("../models/User");
 const router = require("express").Router();
-const CryptoJS = require("crypto-js")
-const jwt = require("jsonwebtoken")
+const CryptoJS = require("crypto-js");
+const jwt = require("jsonwebtoken");
 
 
 // Register
@@ -17,9 +17,9 @@ router.post("/register", async (req, res) => {
 
     try {
         const savedUser = await newUser.save();
-        res.status(201).json(savedUser)
+        res.status(201).json(savedUser);
     } catch (err) {
-        res.status(500).json(err)
+        res.status(500).json(err);
     }
 
 });

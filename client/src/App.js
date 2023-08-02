@@ -13,7 +13,7 @@ function App() {
   const user = useSelector(state=>state.user.currentUser)
   return (
     <div className="App">
-      <BrowserRouter  >
+      <BrowserRouter>
         <Routes>
         <Route exact path='/' element={<Home />} />
         <Route exact path='/products/:category' element={<ProductList />} />
