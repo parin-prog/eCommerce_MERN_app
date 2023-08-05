@@ -79,7 +79,7 @@ const Navbar = () => {
   const currentUser = useSelector(state => state.user.currentUser);
   const dispatch = useDispatch();
 
-  const handleLogout = ()=>{
+  const handleLogout = () => {
     localStorage.removeItem("persist:root");
     dispatch(logout());
   }
@@ -95,12 +95,16 @@ const Navbar = () => {
         </Left>
 
         <Center>
-          <Logo>CUTS.</Logo>
+          <Logo>
+          <Link to="/" style={{color:"black", textDecoration:"none"}}>CUTS.</Link>
+          </Logo>
         </Center>
 
         <Right>
           {!currentUser ? <>
-            <MenuItem>REGISTER</MenuItem>
+            <MenuItem>
+              <Link to="/register" style={{textDecoration:"none", color:"black"}}>REGISTER</Link>
+            </MenuItem>
             <MenuItem>
               <Link style={{ textDecoration: "none", color: "black" }} to="/login">SIGN IN</Link>
             </MenuItem>

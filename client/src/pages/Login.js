@@ -1,9 +1,10 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { styled } from 'styled-components'
 import { mobile } from '../responsive'
 import { useDispatch, useSelector } from 'react-redux'
 import { login } from '../redux/apiCalls'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import HomeIcon from '@mui/icons-material/Home';
 
 const Container = styled.div`
     width: 100vw;
@@ -52,12 +53,25 @@ const Button = styled.div`
         cursor: not-allowed;
     }
 `
-const Link = styled.a`
-    margin: 5px 0;
+const StyledHomeIcon = styled(HomeIcon, {
+    name: "StyledHomeIcon",
+    slot: "Wrapper"
+  })({
+    color: "gray",
+    "&:hover": { color: "teal" }
+  });
+const NLink = styled(Link)`
+    margin: 15px 0;
     font-size: 12px;
+    color: black;
     text-decoration: underline;
     cursor: pointer;
-    margin-bottom: 10px;
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    &:hover{
+
+    }
 `
 
 const Error = styled.span`
@@ -70,19 +84,24 @@ const Login = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const dispatch = useDispatch();
-    const { isFetching, error } = useSelector((state)=>state.user);
+    const { isFetching, currentUser, error } = useSelector((state)=>state.user);
     const navigate = useNavigate();
 
-    const handleLogin = (e)=>{
+    const handleLogin = async(e)=>{
         e.preventDefault();
-        login(dispatch, {username, password});
-        if(!error){
+        await login(dispatch, {username, password});
+    }
+
+    useEffect(() => {
+        if(currentUser){
             navigate('/');
         }
-    }
+    }, [currentUser])
+    
 
 
   return (
+    <>
     <Container>
         <Wrapper>
             <Title>SIGN IN</Title>
@@ -91,11 +110,15 @@ const Login = () => {
                 <Input type='password' placeholder="Password" onChange={(e)=>setPassword(e.target.value)} />
                 {error && <Error>Something went wrong.....!</Error>}
                 <Button onClick={handleLogin} disabled={isFetching}>LOGIN</Button>
-                <Link>DON'T YOU REMEMBER THE PASSWORD?</Link>
-                <Link>CREATE A NEW ACCOUNT</Link>
+                <NLink>DON'T YOU REMEMBER THE PASSWORD?</NLink>
+                <NLink to="/register" >CREATE A NEW ACCOUNT</NLink>
+                <NLink to="/" style={{marginTop:"2rem",justifyContent:"flex-end"}}>
+                Go back to home ---&gt;&gt;&nbsp;&nbsp;&nbsp;
+                <StyledHomeIcon fontSize='large' /></NLink>
             </Form>
         </Wrapper>
     </Container>
+                </>
   )
 }
 

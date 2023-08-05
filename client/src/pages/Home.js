@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Navbar from '../components/Navbar'
 import Announcement from '../components/Announcement'
 import Slider from '../components/Slider'
@@ -8,11 +8,10 @@ import Newsletter from '../components/Newsletter'
 import Footer from '../components/Footer'
 import { styled } from 'styled-components'
 
-const Container = styled.div`
-  
-`
+const Container = styled.div``
 
 const Home = () => {
+
   return (
     <Container className='home'>
       <Announcement />
