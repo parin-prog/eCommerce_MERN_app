@@ -57,8 +57,6 @@ const ProductList = () => {
     });
   }
 
-  console.log(filters);
-  console.log(sort);
   return (
     <Container>
       <Announcement />

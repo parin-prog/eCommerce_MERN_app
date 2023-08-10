@@ -6,10 +6,8 @@ import Product from './pages/Product';
 import Home from './pages/Home';
 import ProductList from './pages/ProductList';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 
 function App() {
-  const user = useSelector(state=>state.user.currentUser);
   
   return (
     <div className="App">

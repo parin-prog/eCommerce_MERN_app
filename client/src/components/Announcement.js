@@ -10,7 +10,11 @@ const Container = styled.div`
     height: 30px;
     font-size: 14px;
     font-weight: 500;
-    transition: height 2s;
+    transition: background-color 1s;
+
+    &:hover{
+      background-color: #019393;
+    }
 `
 
 const Announcement = () => {

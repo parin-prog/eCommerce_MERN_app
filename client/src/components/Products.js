@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { styled } from "styled-components";
 import Product from "./Product";
 import { publicRequest } from "../requestMethods";
+import axios from 'axios'
 
 const Container = styled.div`
   padding: 20px;
@@ -14,12 +15,16 @@ const Products = ({ cat, filters, sort }) => {
   const [filteredProducts, setFilteredProducts] = useState([]);
 
   useEffect(() => {
+    const source = axios.CancelToken.source();      // created cancel token
+    const token = source.token;                    // getting token from source
     const getProducts = async () => {
       try {
         const res = await publicRequest.get(
           cat
             ? `/products?category=${cat}`
-            : "/products"
+            : "/products",  {
+              cancelToken: token
+            }
         );
         setProducts(res.data);
       } catch (err) {}
@@ -53,6 +58,7 @@ const Products = ({ cat, filters, sort }) => {
         [...prev].sort((a, b) => b.price - a.price)
       )
     }
+    console.log("sort")
   },[sort])
 
   return (

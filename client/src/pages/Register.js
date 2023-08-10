@@ -121,7 +121,7 @@ const Register = () => {
         if (currentUser) {
             navigate("/");
         }
-    }, [currentUser])
+    }, [currentUser, navigate])
 
 
     return (

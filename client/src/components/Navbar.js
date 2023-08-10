@@ -75,7 +75,7 @@ const Logout = styled.button`
 `
 
 const Navbar = () => {
-  const quantity = useSelector(state => state.cart.quantity);
+  const items = useSelector(state => state.cart.items);
   const currentUser = useSelector(state => state.user.currentUser);
   const dispatch = useDispatch();
 
@@ -111,7 +111,7 @@ const Navbar = () => {
           </> : <Logout onClick={handleLogout}>Logout</Logout>}
           <Link style={{ color: "black" }} to="/cart">
             <MenuItem>
-              <Badge badgeContent={quantity} color="secondary">
+              <Badge badgeContent={items} color="secondary">
                 <ShoppingCartIcon />
               </Badge>
             </MenuItem>

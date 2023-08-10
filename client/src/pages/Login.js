@@ -96,7 +96,7 @@ const Login = () => {
         if(currentUser){
             navigate('/');
         }
-    }, [currentUser])
+    }, [currentUser, navigate])
     
 
 

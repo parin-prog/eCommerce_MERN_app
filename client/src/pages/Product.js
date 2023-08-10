@@ -136,7 +136,7 @@ const Product = () => {
     }, [id])
 
     const handleClick = ()=>{
-        dispatch(addProduct({ ...product, quantity, price:product.price*quantity, size }));
+        dispatch(addProduct({ ...product, quantity, color, size }));       // adding products
     }
 
   return (

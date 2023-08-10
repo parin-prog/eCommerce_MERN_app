@@ -6,10 +6,11 @@ import Footer from '../components/Footer'
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import { mobile } from '../responsive'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import StripeCheckout from 'react-stripe-checkout'
 import { userRequest } from '../requestMethods'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { addProduct, clearCart, removeProduct } from '../redux/cartRedux'
 
 const Container = styled.div``
 const Wrapper = styled.div`
@@ -30,10 +31,10 @@ const TopButton = styled.button`
   padding: 10px;
   font-weight: 600;
   cursor: pointer;
-  border: ${props=>props.type === "filled" && "black"};
-  padding: ${props=>props.type === "filled" && "12px"};
-  background-color: ${props=>props.type === "filled" ? "black" : "transparent"};
-  color: ${props=>props.type === "filled" && "white"};
+  border: ${props => props.type === "filled" && "black"};
+  padding: ${props => props.type === "filled" && "12px"};
+  background-color: ${props => props.type === "filled" ? "black" : "transparent"};
+  color: ${props => props.type === "filled" && "white"};
 `
 const TopTexts = styled.div`
   ${mobile({ display: "none" })};
@@ -51,6 +52,7 @@ const Bottom = styled.div`
 const Info = styled.div`
   flex: 3;
 `
+const Prod = styled.div``
 const Product = styled.div`
   display: flex;
   justify-content: space-between;
@@ -60,7 +62,7 @@ const Hr = styled.hr`
   background-color: #eee;
   border: none;
   height: 1px;
-  margin: 5px 0;
+  margin: 7px 0;
 `
 const ProductDetail = styled.div`
   flex: 2;
@@ -68,6 +70,7 @@ const ProductDetail = styled.div`
 `
 const Image = styled.img`
   width: 200px;
+  cursor: pointer;
   ${mobile({ width: "55%" })};
 `
 const Details = styled.div`
@@ -82,7 +85,7 @@ const ProductColor = styled.span`
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  background-color: ${props=>props.color}
+  background-color: ${props => props.color}
 `
 const ProductSize = styled.span``
 const PriceDetail = styled.div`
@@ -122,8 +125,8 @@ const SummaryItem = styled.div`
   margin: 30px 0px;
   display: flex;
   justify-content: space-between;
-  font-weight: ${props=>props.type === "total" && "500"};
-  font-size: ${props=>props.type === "total" && "24px"};
+  font-weight: ${props => props.type === "total" && "500"};
+  font-size: ${props => props.type === "total" && "24px"};
 `
 const SummaryItemText = styled.span``
 const SummaryItemPrice = styled.span``
@@ -136,102 +139,123 @@ const Button = styled.button`
 `
 
 const Cart = () => {
-  const cart = useSelector(state=>state.cart);
+  const cart = useSelector(state => state.cart);
   const [stripeToken, setStripeToken] = useState(null);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const onToken = (token) => {
     setStripeToken(token);
   }
 
+  const continueShop = () => {
+    navigate(-1);                // get back
+  }
+
+  const emptyCart = () => {
+    dispatch(clearCart());      // clear cart
+  }
+
+  const addingProduct = (product) => {
+    dispatch(addProduct({ ...product, quantity: 1 }));      // add by 1 quantity
+  }
+  const removingProduct = (product) => {
+    dispatch(removeProduct({ ...product, quantity: 1 }));  // remove by 1 quantity
+  }
+
   useEffect(() => {
     const makeRequest = async () => {
       try {
-        const res = await userRequest.post("/checkout/payment", {
+        await userRequest.post("/checkout/payment", {
           tokenId: stripeToken.id,
           amount: cart.total * 100,
         });
         navigate('/');
-      } catch{}
+      } catch { }
     }
-    stripeToken && cart.total>0 && makeRequest();
-  }, [stripeToken])
-  
+    if (stripeToken !== null && cart.total > 0) {
+      makeRequest();
+    }
+  }, [stripeToken, cart, navigate])
+
   return (
     <Container>
-        <Announcement />
-        <Navbar />
-        <Wrapper>
-          <Title>YOUR BAG</Title>
-            <Top>
-                <TopButton>CONTINUE SHOPPING</TopButton>
-                <TopTexts>
-                  <TopText>Shopping Bag({cart.quantity})</TopText>
-                  <TopText>Your Wishlist (0)</TopText>
-                </TopTexts>
-                  <TopButton type="filled">CHECKOUT NOW</TopButton>
-            </Top>
+      <Announcement />
+      <Navbar />
+      <Wrapper>
+        <Title>YOUR BAG</Title>
+        <Top>
+          <TopButton onClick={continueShop}>CONTINUE SHOPPING</TopButton>
+          <TopTexts>
+            <TopText>Shopping Bag({cart.items})</TopText>
+            <TopText>Your Wishlist (0)</TopText>
+          </TopTexts>
+          <TopButton type="filled" onClick={emptyCart}>Clear Cart</TopButton>
+        </Top>
 
-            <Bottom>
-              <Info>
-                {cart.products.map(product=>(<>
-                <Product key={product._id}>
+        <Bottom>
+          <Info>
+            {cart.products && cart.products.map((product) => (
+              <Prod key={product._id}>
+                <Product>
                   <ProductDetail>
-                    <Image src={product.img} />
+                    <Link to={`/product/${product._id}`}>
+                      <Image src={product.img} />
+                    </Link>
                     <Details>
-                      <ProductName><b>Product:</b> {product.title}</ProductName>
-                      <ProductID><b>ID:</b> {product._id}</ProductID>
-                      <ProductColor color={product.color}/>
-                      <ProductSize><b>Size:</b> {product.size}</ProductSize>
+                      <ProductName><b>Product:</b> {product.title ?? ""}</ProductName>
+                      <ProductID><b>ID:</b> {product._id ?? 0}</ProductID>
+                      <ProductColor color={product.color ?? ""} />
+                      <ProductSize><b>Size:</b> {product.size ?? ""}</ProductSize>
                     </Details>
                   </ProductDetail>
                   <PriceDetail>
                     <ProductAmountContainer>
-                      <AddIcon />
-                      <ProductAmount>{product.quantity}</ProductAmount>
-                      <RemoveIcon />
+                      <AddIcon onClick={() => addingProduct(product)} />
+                      <ProductAmount>{product.quantity ?? 0}</ProductAmount>
+                      <RemoveIcon onClick={() => removingProduct(product)} />
                     </ProductAmountContainer>
-                    <ProductPrice>$ {product.price * product.quantity}</ProductPrice>
+                    <ProductPrice>$ {product.price * product.quantity ?? 0}</ProductPrice>
                   </PriceDetail>
                 </Product>
                 <Hr />
-                </>))}
-                
-                
-              </Info>
-              <Summary>
-                <SummaryTitle>ORDER SUMMARY</SummaryTitle>
-                <SummaryItem>
-                  <SummaryItemText>Subtotal</SummaryItemText>
-                  <SummaryItemPrice>$ {cart.total}</SummaryItemPrice>
-                </SummaryItem>
-                <SummaryItem>
-                  <SummaryItemText>Estimated Shipping</SummaryItemText>
-                  <SummaryItemPrice>$ 5.90</SummaryItemPrice>
-                </SummaryItem>
-                <SummaryItem>
-                  <SummaryItemText>Shipping Discount</SummaryItemText>
-                  <SummaryItemPrice>$ -5.90</SummaryItemPrice>
-                </SummaryItem>
-                <SummaryItem type="total">
-                  <SummaryItemText>Total</SummaryItemText>
-                  <SummaryItemPrice>$ {cart.total}</SummaryItemPrice>
-                </SummaryItem>
-                <StripeCheckout
-                  name="CUTS. Clothing"
-                  image="https://th.bing.com/th/id/OIP.B7HRUkwpkD3XWX08wC2R2wAAAA?w=167&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7"
-                  billingAddress
-                  shippingAddress
-                  description={`Your total is $${cart.total}`}
-                  amount={cart.total*100}
-                  token={onToken}
-                  stripeKey="pk_test_51N4dcHSJ0SDe3t6UcTuJFWrcYuDBHgGk7nckjdEqboqgi3VSPFkw48porW4PukoyR7kdWFOGJerjXVxuqsNpDK8B00mVxkfEA6">
-                  <Button>CHECKOUT NOW</Button>
-                </StripeCheckout>
-              </Summary>
-            </Bottom>
-        </Wrapper>
-        <Footer />
+              </Prod>))}
+
+
+          </Info>
+          <Summary>
+            <SummaryTitle>ORDER SUMMARY</SummaryTitle>
+            <SummaryItem>
+              <SummaryItemText>Subtotal</SummaryItemText>
+              <SummaryItemPrice>$ {cart.total}</SummaryItemPrice>
+            </SummaryItem>
+            <SummaryItem>
+              <SummaryItemText>Estimated Shipping</SummaryItemText>
+              <SummaryItemPrice>$ {cart.estShipping}</SummaryItemPrice>
+            </SummaryItem>
+            <SummaryItem>
+              <SummaryItemText>Shipping Discount</SummaryItemText>
+              <SummaryItemPrice>$ {cart.discount}</SummaryItemPrice>
+            </SummaryItem>
+            <SummaryItem type="total">
+              <SummaryItemText>Total</SummaryItemText>
+              <SummaryItemPrice>$ {cart.total}</SummaryItemPrice>
+            </SummaryItem>
+            {cart.total>0 && <StripeCheckout
+              name="CUTS. Clothing"
+              image="https://th.bing.com/th/id/OIP.B7HRUkwpkD3XWX08wC2R2wAAAA?w=167&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7"
+              billingAddress
+              shippingAddress
+              description={`Your total is $${cart.total}`}
+              amount={cart.total * 100}
+              token={onToken}
+              stripeKey={process.env.REACT_APP_STRIPE_KEY}>
+              <Button>CHECKOUT NOW</Button>
+            </StripeCheckout>}
+          </Summary>
+        </Bottom>
+      </Wrapper>
+      <Footer />
     </Container>
   )
 }
