@@ -11,7 +11,6 @@ import { useLocation } from 'react-router-dom'
 import { publicRequest } from '../requestMethods'
 import { useDispatch } from 'react-redux'
 import { addProduct } from '../redux/cartRedux'
-
 const Container = styled.div``
 const Wrapper = styled.div`
     display: flex;
@@ -136,7 +135,8 @@ const Product = () => {
     }, [id])
 
     const handleClick = ()=>{
-        dispatch(addProduct({ ...product, quantity, color, size }));       // adding products
+        const {_id, price} = product;
+        dispatch(addProduct({_id, quantity, color, size, price}));       // adding products
     }
 
   return (

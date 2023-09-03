@@ -71,7 +71,8 @@ const Product = ({ item }) => {
     const dispatch = useDispatch();
 
     const addToCart = (product)=>{
-         dispatch(addProduct({...product, quantity: 1}));        // adding to cart
+        const {_id, color, size, price} = product;
+        dispatch(addProduct({_id, quantity: 1, color, size, price}));        // adding to cart
     }
 
     return (

@@ -11,5 +11,10 @@ export const publicRequest = axios.create({
 
 export const userRequest = axios.create({
 	baseURL: BASE_URL,
-	header: {token: `Bearer ${accessToken}`}
+	headers: {token: `Bearer ${accessToken}`}
+})
+
+export const adminRequest = axios.create({
+	baseURL: process.env.REACT_APP_ADMIN_URL,
+	headers: {token: `Bearer ${accessToken}`}
 })

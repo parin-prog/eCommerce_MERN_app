@@ -8,9 +8,10 @@ import RemoveIcon from '@mui/icons-material/Remove';
 import { mobile } from '../responsive'
 import { useSelector, useDispatch } from 'react-redux'
 import StripeCheckout from 'react-stripe-checkout'
-import { userRequest } from '../requestMethods'
+import { publicRequest, userRequest } from '../requestMethods'
 import { Link, useNavigate } from 'react-router-dom'
 import { addProduct, clearCart, removeProduct } from '../redux/cartRedux'
+import axios from "axios"
 
 const Container = styled.div``
 const Wrapper = styled.div`
@@ -141,6 +142,7 @@ const Button = styled.button`
 const Cart = () => {
   const cart = useSelector(state => state.cart);
   const [stripeToken, setStripeToken] = useState(null);
+  const [productsData, setProductsData] = useState([]);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -153,15 +155,43 @@ const Cart = () => {
   }
 
   const emptyCart = () => {
-    dispatch(clearCart());      // clear cart
+    if(cart.items){
+    const clear = window.confirm("Are you sure you want to clear all products from cart? Because this action can led to remove all your selected choice of products.")
+    if(clear){
+      dispatch(clearCart());      // clear cart
+    }
+    }
   }
 
   const addingProduct = (product) => {
-    dispatch(addProduct({ ...product, quantity: 1 }));      // add by 1 quantity
+    const {_id, color, size, price} = product;
+    dispatch(addProduct({_id, quantity: 1, color, size, price}));      // add by 1 quantity
+    
   }
   const removingProduct = (product) => {
-    dispatch(removeProduct({ ...product, quantity: 1 }));  // remove by 1 quantity
+    const {_id, color, size, price} = product;
+    dispatch(removeProduct({_id, quantity: 1, color, size, price}));  // remove by 1 quantity
   }
+
+  const fetchProductData = async (id) => {
+    try {
+      const res = await publicRequest.get(`/products/find/${id}`);      // api call for each product
+      return res.data;
+    }catch (err) {
+      console.error(err);
+      return null;
+    }
+  };
+
+  useEffect(() => {
+    const fetchAllProductsData = async () => {
+      const results = await Promise.all(
+        cart.products.map((cartProduct) => fetchProductData(cartProduct._id))
+      );
+      setProductsData(results);
+    };
+    fetchAllProductsData();
+  }, [cart.products]);
 
   useEffect(() => {
     const makeRequest = async () => {
@@ -195,31 +225,32 @@ const Cart = () => {
 
         <Bottom>
           <Info>
-            {cart.products && cart.products.map((product) => (
-              <Prod key={product._id}>
+            {cart.items>0 && productsData.map((productData, index) => {
+              const cartProduct = cart.products[index];
+              return (<Prod key={productData._id}>
                 <Product>
                   <ProductDetail>
-                    <Link to={`/product/${product._id}`}>
-                      <Image src={product.img} />
+                    <Link to={`/product/${cartProduct.productId}`}>
+                      <Image src={productData.img} />
                     </Link>
                     <Details>
-                      <ProductName><b>Product:</b> {product.title ?? ""}</ProductName>
-                      <ProductID><b>ID:</b> {product._id ?? 0}</ProductID>
-                      <ProductColor color={product.color ?? ""} />
-                      <ProductSize><b>Size:</b> {product.size ?? ""}</ProductSize>
+                      <ProductName><b>Product:</b> {productData.title ?? ""}</ProductName>
+                      <ProductID><b>ID:</b> {cartProduct._id ?? 0}</ProductID>
+                      <ProductColor color={cartProduct.color ?? ""} />
+                      <ProductSize><b>Size:</b> {cartProduct.size ?? ""}</ProductSize>
                     </Details>
                   </ProductDetail>
                   <PriceDetail>
                     <ProductAmountContainer>
-                      <AddIcon onClick={() => addingProduct(product)} />
-                      <ProductAmount>{product.quantity ?? 0}</ProductAmount>
-                      <RemoveIcon onClick={() => removingProduct(product)} />
+                      <AddIcon onClick={() => addingProduct(cartProduct)} />
+                      <ProductAmount>{cartProduct.quantity ?? 0}</ProductAmount>
+                      <RemoveIcon onClick={() => removingProduct(cartProduct)} />
                     </ProductAmountContainer>
-                    <ProductPrice>$ {product.price * product.quantity ?? 0}</ProductPrice>
+                    <ProductPrice>$ {cartProduct.price * cartProduct.quantity ?? 0}</ProductPrice>
                   </PriceDetail>
                 </Product>
                 <Hr />
-              </Prod>))}
+              </Prod>);})}
 
 
           </Info>
@@ -239,7 +270,7 @@ const Cart = () => {
             </SummaryItem>
             <SummaryItem type="total">
               <SummaryItemText>Total</SummaryItemText>
-              <SummaryItemPrice>$ {cart.total}</SummaryItemPrice>
+              <SummaryItemPrice>$ {cart.total ?? 0}</SummaryItemPrice>
             </SummaryItem>
             {cart.total>0 && <StripeCheckout
               name="CUTS. Clothing"

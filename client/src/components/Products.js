@@ -58,7 +58,6 @@ const Products = ({ cat, filters, sort }) => {
         [...prev].sort((a, b) => b.price - a.price)
       )
     }
-    console.log("sort")
   },[sort])
 
   return (

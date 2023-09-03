@@ -4,8 +4,9 @@ const router = require("express").Router()
 
 // Create cart
 router.post("/", verifyToken, async (req, res) => {
-
-    const newCart = new Cart(req.body);      /* Create cart obj */
+    const id = req.user.id;
+    const reqBody = req.body;
+    const newCart = new Cart({userId:id, ...reqBody});  /* Create cart obj */
     try {
         const savedCart = await newCart.save();       /* save into DB */
         res.status(200).json(savedCart)
