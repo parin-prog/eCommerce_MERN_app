@@ -5,21 +5,21 @@ import LanguageIcon from '@mui/icons-material/Language';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from "../../redux/userRedux";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Topbar() {
 
-  const {currentUser} = useSelector((state)=>state.user);
+  const { currentUser } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  useEffect(()=>{
-    if(!currentUser?.isAdmin){
+  useEffect(() => {
+    if (!currentUser?.isAdmin) {
       navigate("/login")
     }
-  },[currentUser,navigate])
+  }, [currentUser, navigate])
 
-  const logoutHandle = ()=>{
+  const logoutHandle = () => {
     dispatch(logout());
   }
 
@@ -27,13 +27,15 @@ export default function Topbar() {
     <div className="topbar">
       <div className="topbarWrapper">
         <div className="topLeft">
-          <span className="logo">Cuts. admin panel</span>
+          <span className="logo">
+            <Link to="/" style={{textDecoration:"none",color:"darkblue"}}>Cuts. admin panel</Link>
+          </span>
         </div>
         <div className="topRight">
-        {currentUser?.isAdmin===true && 
-          <div className="topbarIconContainer" style={{ border: "1px solid gray", padding: "3px", marginBottom: "6px" }} onClick={logoutHandle}>
-            Logout
-          </div>}
+          {currentUser?.isAdmin === true &&
+            <div className="topbarIconContainer" style={{ border: "1px solid gray", padding: "3px", marginBottom: "6px" }} onClick={logoutHandle}>
+              Logout
+            </div>}
           <div className="topbarIconContainer">
             <NotificationsNoneIcon />
             <span className="topIconBadge">2</span>

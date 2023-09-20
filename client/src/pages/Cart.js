@@ -11,7 +11,6 @@ import StripeCheckout from 'react-stripe-checkout'
 import { publicRequest, userRequest } from '../requestMethods'
 import { Link, useNavigate } from 'react-router-dom'
 import { addProduct, clearCart, removeProduct } from '../redux/cartRedux'
-import axios from "axios"
 
 const Container = styled.div``
 const Wrapper = styled.div`
@@ -196,11 +195,14 @@ const Cart = () => {
   useEffect(() => {
     const makeRequest = async () => {
       try {
-        await userRequest.post("/checkout/payment", {
+        const res = await userRequest.post("/checkout/payment", {
           tokenId: stripeToken.id,
           amount: cart.total * 100,
         });
-        navigate('/');
+        navigate('/', {
+          stripeData: res.data,
+          products: cart
+        });
       } catch { }
     }
     if (stripeToken !== null && cart.total > 0) {
