@@ -7,10 +7,10 @@ import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import { mobile } from '../responsive'
 import { useSelector, useDispatch } from 'react-redux'
-import StripeCheckout from 'react-stripe-checkout'
-import { publicRequest, userRequest } from '../requestMethods'
+import { publicRequest } from '../requestMethods'
 import { Link, useNavigate } from 'react-router-dom'
 import { addProduct, clearCart, removeProduct } from '../redux/cartRedux'
+import PayButton from '../components/PayButton'
 
 const Container = styled.div``
 const Wrapper = styled.div`
@@ -140,43 +140,39 @@ const Button = styled.button`
 
 const Cart = () => {
   const cart = useSelector(state => state.cart);
-  const [stripeToken, setStripeToken] = useState(null);
   const [productsData, setProductsData] = useState([]);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
-  const onToken = (token) => {
-    setStripeToken(token);
-  }
+  const {currentUser} = useSelector(state => state.user);
 
   const continueShop = () => {
     navigate(-1);                // get back
   }
 
   const emptyCart = () => {
-    if(cart.items){
-    const clear = window.confirm("Are you sure you want to clear all products from cart? Because this action can led to remove all your selected choice of products.")
-    if(clear){
-      dispatch(clearCart());      // clear cart
-    }
+    if (cart.items) {
+      const clear = window.confirm("Are you sure you want to clear all products from cart? Because this action can led to remove all your selected choice of products.")
+      if (clear) {
+        dispatch(clearCart());      // clear cart
+      }
     }
   }
 
   const addingProduct = (product) => {
-    const {_id, color, size, price} = product;
-    dispatch(addProduct({_id, quantity: 1, color, size, price}));      // add by 1 quantity
-    
+    const { _id, color, size, price } = product;
+    dispatch(addProduct({ _id, quantity: 1, color, size, price }));      // add by 1 quantity
+
   }
   const removingProduct = (product) => {
-    const {_id, color, size, price} = product;
-    dispatch(removeProduct({_id, quantity: 1, color, size, price}));  // remove by 1 quantity
+    const { _id, color, size, price } = product;
+    dispatch(removeProduct({ _id, quantity: 1, color, size, price }));  // remove by 1 quantity
   }
 
   const fetchProductData = async (id) => {
     try {
       const res = await publicRequest.get(`/products/find/${id}`);      // api call for each product
       return res.data;
-    }catch (err) {
+    } catch (err) {
       console.error(err);
       return null;
     }
@@ -191,24 +187,6 @@ const Cart = () => {
     };
     fetchAllProductsData();
   }, [cart.products]);
-
-  useEffect(() => {
-    const makeRequest = async () => {
-      try {
-        const res = await userRequest.post("/checkout/payment", {
-          tokenId: stripeToken.id,
-          amount: cart.total * 100,
-        });
-        navigate('/', {
-          stripeData: res.data,
-          products: cart
-        });
-      } catch { }
-    }
-    if (stripeToken !== null && cart.total > 0) {
-      makeRequest();
-    }
-  }, [stripeToken, cart, navigate])
 
   return (
     <Container>
@@ -227,9 +205,9 @@ const Cart = () => {
 
         <Bottom>
           <Info>
-            {cart.items>0 && productsData.map((productData, index) => {
+            {cart.items > 0 && productsData.map((productData, index) => {
               const cartProduct = cart.products[index];
-              return (<Prod key={productData._id}>
+              return (<Prod key={productData._id ?? ""}>
                 <Product>
                   <ProductDetail>
                     <Link to={`/product/${cartProduct.productId}`}>
@@ -252,7 +230,8 @@ const Cart = () => {
                   </PriceDetail>
                 </Product>
                 <Hr />
-              </Prod>);})}
+              </Prod>);
+            })}
 
 
           </Info>
@@ -274,17 +253,15 @@ const Cart = () => {
               <SummaryItemText>Total</SummaryItemText>
               <SummaryItemPrice>$ {cart.total ?? 0}</SummaryItemPrice>
             </SummaryItem>
-            {cart.total>0 && <StripeCheckout
-              name="CUTS. Clothing"
-              image="https://th.bing.com/th/id/OIP.B7HRUkwpkD3XWX08wC2R2wAAAA?w=167&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7"
-              billingAddress
-              shippingAddress
-              description={`Your total is $${cart.total}`}
-              amount={cart.total * 100}
-              token={onToken}
-              stripeKey={process.env.REACT_APP_STRIPE_KEY}>
-              <Button>CHECKOUT NOW</Button>
-            </StripeCheckout>}
+              {currentUser?._id ? (
+                <PayButton cartItems={cart.products} />
+              ) : (
+                <Button
+                  onClick={() => navigate("/login")}
+                >
+                  Login to Check out
+                </Button>
+              )}
           </Summary>
         </Bottom>
       </Wrapper>

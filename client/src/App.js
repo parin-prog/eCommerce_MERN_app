@@ -6,6 +6,8 @@ import Product from './pages/Product';
 import Home from './pages/Home';
 import ProductList from './pages/ProductList';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import Success from './pages/Success';
+import Failure from './pages/Failure';
 
 function App() {
   
@@ -17,6 +19,8 @@ function App() {
         <Route exact path='/products/:category' element={<ProductList />} />
         <Route exact path='/product/:id' element={<Product />} />
         <Route exact path='/cart' element={<Cart />} />
+        <Route exact path='/success' element={<Success />} />
+        <Route exact path='/failure' element={<Failure />} />
         <Route exact path='/register' element={<Register />} />
         <Route exact path='/login' element={<Login />} />
         </Routes>
