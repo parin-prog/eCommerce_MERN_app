@@ -11,6 +11,7 @@ import { useLocation } from 'react-router-dom'
 import { publicRequest } from '../requestMethods'
 import { useDispatch } from 'react-redux'
 import { addProduct } from '../redux/cartRedux'
+
 const Container = styled.div``
 const Wrapper = styled.div`
     display: flex;
@@ -133,6 +134,12 @@ const Product = () => {
       }
       getProducts();
     }, [id])
+
+    useEffect(() => {
+        if(product?.color && product.color.length > 0){
+            setColor(product.color[0]);                                             // default color init
+        }
+      }, [product]);
 
     const handleClick = ()=>{
         const {_id, price} = product;

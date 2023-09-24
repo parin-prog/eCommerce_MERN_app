@@ -207,10 +207,10 @@ const Cart = () => {
           <Info>
             {cart.items > 0 && productsData.map((productData, index) => {
               const cartProduct = cart.products[index];
-              return (<Prod key={productData._id ?? ""}>
+              return (<Prod key={index}>
                 <Product>
                   <ProductDetail>
-                    <Link to={`/product/${cartProduct.productId}`}>
+                    <Link to={`/product/${cartProduct._id}`}>
                       <Image src={productData.img} />
                     </Link>
                     <Details>

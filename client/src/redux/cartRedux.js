@@ -11,7 +11,9 @@ const cartSlice = createSlice({
 	},
 	reducers: {
 		addProduct: (state, action) => {
-			const exist = state.products.some((product) => product._id === action.payload._id);   // exist check
+			const exist = state.products.some((product) => product._id === action.payload._id 
+			&& product.color === action.payload.color 
+			&& product.size === action.payload.size);   // exist check
 			if (exist) {
 				const newProducts = state.products.map(obj => {
 					if (obj._id === action.payload._id) {
