@@ -83,6 +83,7 @@ const Register = () => {
     const [firstname, setFirstname] = useState("");
     const [lastname, setLastname] = useState("");
     const [username, setUsername] = useState("");
+    const [role, setRole] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [cpassword, setCPassword] = useState("");
@@ -97,7 +98,7 @@ const Register = () => {
         const fullname = firstname + " " + lastname;
         if (consent) {
             if (password === cpassword && password && username) {
-                await register(dispatch, { fullname, username, email, password });
+                await register(dispatch, { fullname, username, role, email, password });
                 await login(dispatch, { username, password });
             } else {
                 setMsg("Must agree consent and privacy policy for making further process of registration.");
@@ -106,14 +107,6 @@ const Register = () => {
         else {
             setMsg("Please enter correct information.");
             dispatch(loginFailure());
-        }
-    }
-
-    const checkHandler = (e) => {
-        if (consent === false) {
-            setConsent(true);
-        } else {
-            setConsent(false);
         }
     }
 
@@ -132,11 +125,12 @@ const Register = () => {
                     <Input placeholder="First Name" onChange={(e) => { setFirstname(e.target.value) }} />
                     <Input placeholder="Last Name" onChange={(e) => { setLastname(e.target.value) }} />
                     <Input placeholder="Username" onChange={(e) => { setUsername(e.target.value) }} />
+                    <Input placeholder="Role" onChange={(e) => { setRole(e.target.value) }} />
                     <Input placeholder="Email" onChange={(e) => { setEmail(e.target.value) }} />
                     <Input placeholder="Password" onChange={(e) => { setPassword(e.target.value) }} />
                     <Input placeholder="Confirm Password" onChange={(e) => { setCPassword(e.target.value) }} />
                     <Agreement>
-                        <Checkbox type="checkbox" value={consent} onClick={checkHandler} />
+                        <Checkbox type="checkbox" value={consent} onChange={(e)=>{!consent ? setConsent(true) : setConsent(false)}} />
                         By creating an account, I consent to the processing of my personal data in accordance with the <b>PRIVACY POLICY</b>
                     </Agreement>
                     {error && <Error>&#x1F615; {msg}</Error>}
