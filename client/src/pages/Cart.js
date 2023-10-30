@@ -84,6 +84,7 @@ const ProductID = styled.span``
 const ProductColor = styled.span`
   width: 20px;
   height: 20px;
+  box-shadow: 0px 0px 2px 0px;
   border-radius: 50%;
   background-color: ${props => props.color}
 `

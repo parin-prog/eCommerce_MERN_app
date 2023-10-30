@@ -15,7 +15,11 @@ router.post("/register", async (req, res) => {
         password: CryptoJS.AES.encrypt(
             req.body.password,
             process.env.PASS_SECR
-        ).toString()  /* AES algorithm cyphered password */
+        ).toString(),  /* AES algorithm cyphered password */
+        phone: req.body.phone,
+        address: req.body.address,
+        gender: req.body.gender,
+        active: req.body.active
     });
 
     try {
