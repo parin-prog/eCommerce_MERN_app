@@ -58,8 +58,6 @@ Product Preview:
 ![](/client/src/assets/explore.png)
 ![](/client/src/assets/products.png)
 ![](/client/src/assets/footer.png)
-![](/client/src/assets/login.png)
-![](/client/src/assets/login.png)
 ---
 Sign-in && Sign-Up Page:
 
