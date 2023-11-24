@@ -42,7 +42,7 @@ An E commerce platform made using React JS, Redux, MaterialUI, Router, ExpressJS
 * Seamless Payment Flow: The Stripe integration ensures a seamless payment flow within the application, allowing users to complete transactions swiftly and securely, enhancing the overall shopping experience.
 ---
 ---
-### Admin panel  [Here](/admin/Readme.md)
+### Admin panel  [Here](/admin/README.md)
 ---
 ---
 **SCREENSHOTS:**
@@ -58,8 +58,6 @@ Product Preview:
 ![](/client/src/assets/explore.png)
 ![](/client/src/assets/products.png)
 ![](/client/src/assets/footer.png)
-![](/client/src/assets/login.png)
-![](/client/src/assets/login.png)
 ---
 Sign-in && Sign-Up Page:
 
